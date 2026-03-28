@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currículo Interativo | João Carlos Krapp</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Habilita o dark mode através de uma classe CSS no elemento <html>
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
-            color: #1e293b; /* slate-800 */
-        }
         .chart-container {
             position: relative;
             margin: auto;
@@ -34,6 +41,12 @@
             left: -0.625rem;
             top: 0;
             z-index: 10;
+            transition: all 0.3s ease;
+        }
+        /* Estilos específicos para a linha do tempo no modo escuro */
+        html.dark .timeline-item::before {
+            background-color: #1e293b; /* slate-800 */
+            border-color: #38bdf8; /* sky-400 */
         }
         .foto-girada {
             transform: rotate(-6deg);
@@ -46,33 +59,53 @@
             background-color: red;
         }
         .logo-alura{
-            /* filter: invert(50%); */
-            filter: brightness(0) saturate(100%) invert(27%) sepia(15%) saturate(2598%) hue-rotate(175deg) brightness(96%) contrast(85%);;
+            filter: brightness(0) saturate(100%) invert(27%) sepia(15%) saturate(2598%) hue-rotate(175deg) brightness(96%) contrast(85%);
+        }
+        html.dark .logo-alura {
+            filter: brightness(0) saturate(100%) invert(75%) sepia(35%) saturate(600%) hue-rotate(175deg) brightness(105%) contrast(85%);
         }
     </style>
+    <!-- Script para verificar o tema antes do carregamento da página (evita flash branco) -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
 </head>
-<body class="antialiased">
+<body class="antialiased bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300 font-sans">
 
     <!-- Header & Navigation -->
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-30 shadow-sm">
+    <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 shadow-sm dark:shadow-slate-800/50 transition-colors duration-300">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
-                    <span class="font-bold text-xl text-sky-600">JCK</span>
+                    <span class="font-bold text-xl text-sky-600 dark:text-sky-400">JCK</span>
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="#sobre" data-translate-key="nav_about" class="text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Sobre</a>
-                    <a href="#experiencia" data-translate-key="nav_experience" class="text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Experiência</a>
-                    <a href="#competencias" data-translate-key="nav_skills" class="text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Competências</a>
-                    <a href="#projetos" data-translate-key="nav_projects" class="text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Projetos</a>
-                    <a href="#certificacoes" data-translate-key="nav_certifications" class="text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Certificações</a>
-                    <a href="#formacao" data-translate-key="nav_education" class="text-slate-600 hover:text-sky-600 px-3 py-2 rounded-md text-sm font-medium">Formação</a>
+                    <a href="#sobre" data-translate-key="nav_about" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Sobre</a>
+                    <a href="#experiencia" data-translate-key="nav_experience" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Experiência</a>
+                    <a href="#competencias" data-translate-key="nav_skills" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Competências</a>
+                    <a href="#projetos" data-translate-key="nav_projects" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Projetos</a>
+                    <a href="#certificacoes" data-translate-key="nav_certifications" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Certificações</a>
+                    <a href="#formacao" data-translate-key="nav_education" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Formação</a>
                 </div>
-                 <!-- Language Switcher -->
-                <div class="flex items-center space-x-2">
-                    <button id="lang-pt" class="lang-btn text-slate-600 hover:text-sky-600 px-2 py-1 rounded-md text-sm font-medium active">PT</button>
-                    <span>|</span>
-                    <button id="lang-en" class="lang-btn text-slate-600 hover:text-sky-600 px-2 py-1 rounded-md text-sm font-medium">EN</button>
+                 <!-- Controls: Language Switcher & Theme Toggle -->
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-1">
+                        <button id="lang-pt" class="lang-btn text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-2 py-1 rounded-md text-sm font-medium active transition-colors">PT</button>
+                        <span class="text-slate-400 dark:text-slate-600">|</span>
+                        <button id="lang-en" class="lang-btn text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-2 py-1 rounded-md text-sm font-medium transition-colors">EN</button>
+                    </div>
+                    
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-200 dark:focus:ring-slate-700 rounded-lg text-sm p-2.5 transition-colors">
+                        <!-- Dark mode icon (Moon) -->
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                        <!-- Light mode icon (Sun) -->
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                    </button>
                 </div>
             </div>
         </nav>
@@ -82,20 +115,20 @@
 
         <!-- Sobre / Hero Section -->
         <section id="sobre" class="text-center py-16">
-            <img class="w-32 h-32 rounded-full mx-auto mb-6 shadow-lg ring-4 ring-white foto-girada" src="./data/foto.jpg" alt="Foto de perfil de João Carlos Krapp">
-            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">João Carlos Krapp</h1>
-            <p class="mt-3 text-lg text-slate-600" data-translate-key="hero_subtitle">Desenvolvedor de Software</p>
+            <img class="w-32 h-32 rounded-full mx-auto mb-6 shadow-lg ring-4 ring-white dark:ring-slate-800 foto-girada transition-shadow duration-300" src="./data/foto.jpg" alt="Foto de perfil de João Carlos Krapp" onerror="this.src='https://ui-avatars.com/api/?name=João+Krapp&background=0284c7&color=fff&size=128'">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white transition-colors">João Carlos Krapp</h1>
+            <p class="mt-3 text-lg text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="hero_subtitle">Desenvolvedor de Software</p>
             <div class="mt-6 flex justify-center gap-6">
                 <!-- Links Sociais -->
-                <a href="https://www.linkedin.com/in/joao-krapp/" target="_blank" title="LinkedIn" class="text-slate-500 hover:text-sky-600 transition-colors">
+                <a href="https://www.linkedin.com/in/joao-krapp/" target="_blank" title="LinkedIn" class="text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                 </a>
-                <a href="https://github.com/JoaoCarlosKrapp" target="_blank" title="GitHub" class="text-slate-500 hover:text-sky-600 transition-colors">
+                <a href="https://github.com/JoaoCarlosKrapp" target="_blank" title="GitHub" class="text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"/></svg>
                 </a>
             </div>
             <div class="mt-8 max-w-3xl mx-auto">
-                <p class="text-base text-slate-700" data-translate-key="hero_description">
+                <p class="text-base text-slate-700 dark:text-slate-300 transition-colors" data-translate-key="hero_description">
                     Estudante de Ciência da Computação proativo e orientado a resultados, com experiência prática em desenvolvimento de software full-stack, engenharia e análise de dados. Busco aplicar minhas habilidades em Python, ecossistema Azure e desenvolvimento de IA para criar soluções tecnológicas inovadoras e contribuir para projetos desafiadores.
                 </p>
             </div>
@@ -104,52 +137,52 @@
         <!-- Experiência Profissional -->
         <section id="experiencia" class="py-16">
             <div class="max-w-3xl mx-auto">
-                <h2 class="text-3xl font-bold text-center mb-12 text-slate-900" data-translate-key="experience_title">Linha do Tempo Profissional</h2>
-                <div class="relative border-l-2 border-slate-200 ml-3">
+                <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white transition-colors" data-translate-key="experience_title">Linha do Tempo Profissional</h2>
+                <div class="relative border-l-2 border-slate-200 dark:border-slate-700 ml-3 transition-colors">
                     
                     <!-- Desenvolvedor Junior Bosch -->
                     <div class="mb-10 ml-8 timeline-item">
-                        <h3 class="text-xl font-semibold text-sky-700" data-translate-key="bosch_jr_title">Desenvolvedor Fullstack Junior</h3>
-                        <p class="text-md font-medium text-slate-800" data-translate-key="bosch_jr_company">Bosch | Campinas, SP (Remoto)</p>
-                        <time class="text-sm font-normal text-slate-500" data-translate-key="bosch_jr_date">Set 2025 – Atualmente</time>
-                        <p class="mt-2 text-base text-slate-600" data-translate-key="bosch_jr_desc">Liderei o desenvolvimento do backend durante o MVP de um sistema de gerenciamento de custos de internet</p>
+                        <h3 class="text-xl font-semibold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="bosch_jr_title">Desenvolvedor Fullstack Junior</h3>
+                        <p class="text-md font-medium text-slate-800 dark:text-slate-200 transition-colors" data-translate-key="bosch_jr_company">Bosch | Campinas, SP (Remoto)</p>
+                        <time class="text-sm font-normal text-slate-500 dark:text-slate-400 transition-colors" data-translate-key="bosch_jr_date">Set 2025 – Atualmente</time>
+                        <p class="mt-2 text-base text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="bosch_jr_desc">Liderei o desenvolvimento do backend durante o MVP de um sistema de gerenciamento de custos de internet.</p>
                     </div>
 
                     <!-- Bosch -->
                     <div class="mb-10 ml-8 timeline-item">
-                        <h3 class="text-xl font-semibold text-sky-700" data-translate-key="bosch_title">Estagiário de Engenharia de Software</h3>
-                        <p class="text-md font-medium text-slate-800">Bosch | Campinas, SP (Remoto)</p>
-                        <time class="text-sm font-normal text-slate-500" data-translate-key="bosch_date">Ago 2024 – Set 2025</time>
-                        <p class="mt-2 text-base text-slate-600" data-translate-key="bosch_desc">Liderei o desenvolvimento e a implementação de um pipeline de dados em Databricks e colaborei no desenvolvimento de sistemas internos seguros com FastAPI e React.</p>
+                        <h3 class="text-xl font-semibold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="bosch_title">Estagiário de Engenharia de Software</h3>
+                        <p class="text-md font-medium text-slate-800 dark:text-slate-200 transition-colors">Bosch | Campinas, SP (Remoto)</p>
+                        <time class="text-sm font-normal text-slate-500 dark:text-slate-400 transition-colors" data-translate-key="bosch_date">Ago 2024 – Set 2025</time>
+                        <p class="mt-2 text-base text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="bosch_desc">Liderei o desenvolvimento e a implementação de um pipeline de dados em Databricks e colaborei no desenvolvimento de sistemas internos seguros com FastAPI e React.</p>
                     </div>
                     <!-- Unifique -->
                     <div class="mb-10 ml-8 timeline-item">
-                        <h3 class="text-xl font-semibold text-sky-700" data-translate-key="unifique_title">Estagiário de Inovação e Tecnologia</h3>
-                        <p class="text-md font-medium text-slate-800">Unifique | Timbó, SC</p>
-                        <time class="text-sm font-normal text-slate-500" data-translate-key="unifique_date">Nov 2023 – Jul 2024</time>
-                        <p class="mt-2 text-base text-slate-600" data-translate-key="unifique_desc">Desenvolvi e implementei rotinas de automação para a geração de relatórios gerenciais, otimizando o acesso à informação para a alta gestão.</p>
+                        <h3 class="text-xl font-semibold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="unifique_title">Estagiário de Inovação e Tecnologia</h3>
+                        <p class="text-md font-medium text-slate-800 dark:text-slate-200 transition-colors">Unifique | Timbó, SC</p>
+                        <time class="text-sm font-normal text-slate-500 dark:text-slate-400 transition-colors" data-translate-key="unifique_date">Nov 2023 – Jul 2024</time>
+                        <p class="mt-2 text-base text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="unifique_desc">Desenvolvi e implementei rotinas de automação para a geração de relatórios gerenciais, otimizando o acesso à informação para a alta gestão.</p>
                     </div>
                     <!-- FURB -->
                     <div class="ml-8 timeline-item">
-                        <h3 class="text-xl font-semibold text-sky-700" data-translate-key="furb_title">Estagiário de Análise de Dados</h3>
-                        <p class="text-md font-medium text-slate-800">FURB | Blumenau, SC</p>
-                        <time class="text-sm font-normal text-slate-500" data-translate-key="furb_date">Set 2022 – Nov 2023</time>
-                        <p class="mt-2 text-base text-slate-600" data-translate-key="furb_desc">Criei painéis de visualização de dados com Power BI e SQL, fornecendo insights analíticos que apoiaram a tomada de decisão estratégica.</p>
+                        <h3 class="text-xl font-semibold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="furb_title">Estagiário de Análise de Dados</h3>
+                        <p class="text-md font-medium text-slate-800 dark:text-slate-200 transition-colors">FURB | Blumenau, SC</p>
+                        <time class="text-sm font-normal text-slate-500 dark:text-slate-400 transition-colors" data-translate-key="furb_date">Set 2022 – Nov 2023</time>
+                        <p class="mt-2 text-base text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="furb_desc">Criei painéis de visualização de dados com Power BI e SQL, fornecendo insights analíticos que apoiaram a tomada de decisão estratégica.</p>
                     </div>
                 </div>
             </div>
         </section>
         
         <!-- Competências Técnicas -->
-        <section id="competencias" class="py-16 bg-white rounded-2xl shadow-lg">
+        <section id="competencias" class="py-16 bg-white dark:bg-slate-800 rounded-2xl shadow-lg dark:shadow-slate-900/20 transition-colors duration-300">
             <div class="text-center">
-                <h2 class="text-3xl font-bold text-slate-900" data-translate-key="skills_title">Competências Técnicas</h2>
-                <p class="mt-4 text-slate-600 max-w-2xl mx-auto" data-translate-key="skills_desc">Um resumo visual das minhas habilidades. Clique nos botões abaixo para explorar cada categoria e ver meu nível de proficiência em diferentes tecnologias.</p>
+                <h2 class="text-3xl font-bold text-slate-900 dark:text-white transition-colors" data-translate-key="skills_title">Competências Técnicas</h2>
+                <p class="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto transition-colors" data-translate-key="skills_desc">Um resumo visual das minhas habilidades. Clique nos botões abaixo para explorar cada categoria e ver meu nível de proficiência em diferentes tecnologias.</p>
             </div>
             <div class="mt-8 flex justify-center flex-wrap gap-2 px-4">
-                <button data-skills="languages" class="skill-btn bg-sky-600 text-white px-4 py-2 rounded-full text-sm font-medium" data-translate-key="skills_btn_lang">Linguagens & Frameworks</button>
-                <button data-skills="data_cloud" class="skill-btn bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium" data-translate-key="skills_btn_data">Dados & Cloud</button>
-                <button data-skills="system_dev" class="skill-btn bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium" data-translate-key="skills_btn_dev">Desenvolvimento de Sistemas</button>
+                <button data-skills="languages" class="skill-btn bg-sky-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors" data-translate-key="skills_btn_lang">Linguagens & Frameworks</button>
+                <button data-skills="data_cloud" class="skill-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-translate-key="skills_btn_data">Dados & Cloud</button>
+                <button data-skills="system_dev" class="skill-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-translate-key="skills_btn_dev">Desenvolvimento de Sistemas</button>
             </div>
             <div class="mt-8 chart-container">
                 <canvas id="skillsChart"></canvas>
@@ -158,37 +191,37 @@
 
         <!-- Projetos Destacados -->
         <section id="projetos" class="py-16">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900" data-translate-key="projects_title">Projetos Destacados</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white transition-colors" data-translate-key="projects_title">Projetos Destacados</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Projeto VR -->
-                <div class="bg-white rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-transform duration-300">
-                    <h3 class="text-lg font-bold text-sky-700" data-translate-key="project1_title">Otimização de Ativos para VR</h3>
-                    <p class="mt-2 text-sm text-slate-600" data-translate-key="project1_desc">Utilizando Blender e scripts Python, reduzi o tamanho de modelos 3D em <span class="font-bold text-green-600">até 75%</span>, melhorando drasticamente a performance de uma aplicação de Realidade Virtual na Bosch.</p>
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="text-lg font-bold text-sky-700 dark:text-sky-400" data-translate-key="project1_title">Otimização de Ativos para VR</h3>
+                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300" data-translate-key="project1_desc">Utilizando Blender e scripts Python, reduzi o tamanho de modelos 3D em <span class="font-bold text-green-600 dark:text-green-400">até 75%</span>, melhorando drasticamente a performance de uma aplicação de Realidade Virtual na Bosch.</p>
                     <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="bg-sky-100 text-sky-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Python</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Blender</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">VR</span>
+                        <span class="bg-sky-100 dark:bg-sky-900/50 text-sky-800 dark:text-sky-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Python</span>
+                        <span class="bg-sky-100 dark:bg-sky-900/50 text-sky-800 dark:text-sky-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Blender</span>
+                        <span class="bg-sky-100 dark:bg-sky-900/50 text-sky-800 dark:text-sky-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">VR</span>
                     </div>
                 </div>
                 <!-- Projeto Data Pipeline -->
-                <div class="bg-white rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-transform duration-300">
-                    <h3 class="text-lg font-bold text-sky-700" data-translate-key="project2_title">Data Pipeline com IA</h3>
-                    <p class="mt-2 text-sm text-slate-600" data-translate-key="project2_desc">Desenvolvi um pipeline de dados completo em Azure Databricks, empregando LLMs para normalizar e enriquecer dados, automatizando a geração de relatórios complexos.</p>
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="text-lg font-bold text-sky-700 dark:text-sky-400" data-translate-key="project2_title">Data Pipeline com IA</h3>
+                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300" data-translate-key="project2_desc">Desenvolvi um pipeline de dados completo em Azure Databricks, empregando LLMs para normalizar e enriquecer dados, automatizando a geração de relatórios complexos.</p>
                     <div class="mt-4 flex flex-wrap gap-2">
-                         <span class="bg-amber-100 text-amber-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Azure</span>
-                         <span class="bg-amber-100 text-amber-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Databricks</span>
-                         <span class="bg-amber-100 text-amber-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">LLM</span>
-                         <span class="bg-amber-100 text-amber-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Python</span>
+                         <span class="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Azure</span>
+                         <span class="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Databricks</span>
+                         <span class="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">LLM</span>
+                         <span class="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Python</span>
                     </div>
                 </div>
                 <!-- Projeto Automação -->
-                <div class="bg-white rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-transform duration-300">
-                    <h3 class="text-lg font-bold text-sky-700" data-translate-key="project3_title">Automação de Relatórios</h3>
-                    <p class="mt-2 text-sm text-slate-600" data-translate-key="project3_desc">Criei scripts de automação na Unifique que processavam dados e geravam relatórios para a alta gestão, economizando horas de trabalho manual e agilizando a comunicação.</p>
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-all duration-300">
+                    <h3 class="text-lg font-bold text-sky-700 dark:text-sky-400" data-translate-key="project3_title">Automação de Relatórios</h3>
+                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300" data-translate-key="project3_desc">Criei scripts de automação na Unifique que processavam dados e geravam relatórios para a alta gestão, economizando horas de trabalho manual e agilizando a comunicação.</p>
                      <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="bg-slate-100 text-slate-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Python</span>
-                        <span class="bg-slate-100 text-slate-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Pandas</span>
-                        <span class="bg-slate-100 text-slate-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">Excel</span>
+                        <span class="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Python</span>
+                        <span class="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Pandas</span>
+                        <span class="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Excel</span>
                     </div>
                 </div>
             </div>
@@ -196,59 +229,59 @@
 
         <!-- Certificações -->
         <section id="certificacoes" class="py-16">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900" data-translate-key="certifications_title">Certificações e Cursos</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white transition-colors" data-translate-key="certifications_title">Certificações e Cursos</h2>
             <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Certificado 1 -->
-                <a href="https://certificates.cs50.io/88926a13-ecad-4a96-b4ec-ee8277e498b3.pdf?size=letter" target="_blank" class="flex items-center gap-4 bg-white p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 group">
-                    <img src="./data/Harvard-Logo.png" alt="Logo Harvard" class="w-14 h-14 object-contain rounded">
+                <a href="https://certificates.cs50.io/88926a13-ecad-4a96-b4ec-ee8277e498b3.pdf?size=letter" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <img src="./data/Harvard-Logo.png" alt="Logo Harvard" class="w-14 h-14 object-contain rounded transition-colors">
                     <div>
-                        <h3 class="font-bold text-sky-700">CS50x: Introduction to Computer Science</h3>
-                        <p class="text-sm text-slate-500">Harvard University</p>
+                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors">CS50x: Introduction to Computer Science</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Harvard University</p>
                     </div>
                 </a>
                 
                 <!-- Certificado 2 -->
-                <a href="https://docs.google.com/document/d/1YCs4ePlG2pLo7cDc0L2T0dW7CadPoxInAZ1pR2mxf_A/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 group">
-                    <img src="./data/meta-logo-upscaled-removebg.png" alt="Logo Meta" class="w-14 h-14 object-contain rounded certificationLogo">
+                <a href="https://docs.google.com/document/d/1YCs4ePlG2pLo7cDc0L2T0dW7CadPoxInAZ1pR2mxf_A/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <img src="./data/meta-logo-upscaled-removebg.png" alt="Logo Meta" class="w-14 h-14 object-contain rounded certificationLogo transition-colors">
                     <div>
-                        <h3 class="font-bold text-sky-700" data-translate-key="cert2_title">Backend Development</h3>
-                        <p class="text-sm text-slate-500">Meta</p>
+                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="cert2_title">Backend Development</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Meta</p>
                     </div>
                 </a>
 
                 <!-- Certificado 3 -->
-                <a href="https://docs.google.com/document/d/1_IgyU19NDV6ynEEA_otRdrfHDuVGO_8JEolwV_-tOZg/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 group">
-                    <img src="./data/google-cloud.png" alt="Logo Google Cloud" class="w-14 h-14 object-contain rounded">
+                <a href="https://docs.google.com/document/d/1_IgyU19NDV6ynEEA_otRdrfHDuVGO_8JEolwV_-tOZg/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <img src="./data/google-cloud.png" alt="Logo Google Cloud" class="w-14 h-14 object-contain rounded transition-colors">
                     <div>
-                        <h3 class="font-bold text-sky-700" data-translate-key="cert3_title">Introduction to AI and Machine Learning</h3>
-                        <p class="text-sm text-slate-500">Google Cloud</p>
+                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="cert3_title">Introduction to AI and Machine Learning</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Google Cloud</p>
                     </div>
                 </a>
 
                 <!-- Certificado 4 -->
-                <a href="https://learn.microsoft.com/api/achievements/share/en-us/JoaoKrapp-1415/VDRXPD5M?sharingId=D9F116307AAFD269" target="_blank" class="flex items-center gap-4 bg-white p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 group">
-                    <img src="./data/Azure.svg" alt="Logo Microsoft Azure" class="w-12 h-12 object-contain rounded logo-azure">
+                <a href="https://learn.microsoft.com/api/achievements/share/en-us/JoaoKrapp-1415/VDRXPD5M?sharingId=D9F116307AAFD269" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <img src="./data/Azure.svg" alt="Logo Microsoft Azure" class="w-10 h-10 object-contain rounded logo-azure transition-colors">
                     <div>
-                        <h3 class="font-bold text-sky-700">Explore PostgreSQL Architecture</h3>
-                        <p class="text-sm text-slate-500">Microsoft Azure</p>
+                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors">Explore PostgreSQL Architecture</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Microsoft Azure</p>
                     </div>
                 </a>
 
                 <!-- Certificado 5 -->
-                 <a href="https://docs.google.com/document/d/1rMd3KEUAP_NijE1gRo8lbh48PbuvN1WycdvkKOWIoe4/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 group">
-                    <img src="./data/alura-removebg-preview.png" alt="Logo Alura" class="w-14 h-14 object-contain rounded logo-alura">
+                 <a href="https://docs.google.com/document/d/1rMd3KEUAP_NijE1gRo8lbh48PbuvN1WycdvkKOWIoe4/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <img src="./data/alura-removebg-preview.png" alt="Logo Alura" class="w-14 h-14 object-contain rounded logo-alura transition-all">
                     <div>
-                        <h3 class="font-bold text-sky-700">Django: Rest Frameworks</h3>
-                        <p class="text-sm text-slate-500">Alura</p>
+                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors">Django: Rest Frameworks</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Alura</p>
                     </div>
                 </a>
 
                 <!-- Certificado 6 -->
-                 <a href="https://docs.google.com/document/d/1QriAaPbW7TWTkXwrmc749wGNZaLVuuNze03ZNBez4lc/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300 group">
-                    <img src="./data/alura-removebg-preview.png" alt="Logo Alura" class="w-14 h-14 object-contain rounded logo-alura">
+                 <a href="https://docs.google.com/document/d/1QriAaPbW7TWTkXwrmc749wGNZaLVuuNze03ZNBez4lc/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+                    <img src="./data/alura-removebg-preview.png" alt="Logo Alura" class="w-14 h-14 object-contain rounded logo-alura transition-all">
                     <div>
-                        <h3 class="font-bold text-sky-700" data-translate-key="cert6_title">Apache Airflow: Data Pipelines</h3>
-                        <p class="text-sm text-slate-500">Alura</p>
+                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="cert6_title">Apache Airflow: Data Pipelines</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Alura</p>
                     </div>
                 </a>
             </div>
@@ -256,33 +289,74 @@
 
         <!-- Formação Acadêmica -->
         <section id="formacao" class="py-16">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900" data-translate-key="education_title">Formação Acadêmica</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white transition-colors" data-translate-key="education_title">Formação Acadêmica</h2>
             <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="font-bold text-sky-700" data-translate-key="furb_education_title">Bacharelado em Ciência da Computação</h3>
-                    <p class="text-slate-600">FURB - Fundação Universidade Regional de Blumenau</p>
-                    <p class="text-sm text-slate-500" data-translate-key="furb_education_date">Conclusão em Junho de 2026</p>
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-colors">
+                    <h3 class="font-bold text-sky-700 dark:text-sky-400" data-translate-key="furb_education_title">Bacharelado em Ciência da Computação</h3>
+                    <p class="text-slate-600 dark:text-slate-300">FURB - Fundação Universidade Regional de Blumenau</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400" data-translate-key="furb_education_date">Conclusão em Junho de 2026</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="font-bold text-sky-700" data-translate-key="ifc_education_title">Curso Técnico em Informática</h3>
-                    <p class="text-slate-600">IFC - Instituto Federal Catarinense</p>
-                    <p class="text-sm text-slate-500" data-translate-key="ifc_education_date">Concluído em Fevereiro de 2022</p>
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-colors">
+                    <h3 class="font-bold text-sky-700 dark:text-sky-400" data-translate-key="ifc_education_title">Curso Técnico em Informática</h3>
+                    <p class="text-slate-600 dark:text-slate-300">IFC - Instituto Federal Catarinense</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400" data-translate-key="ifc_education_date">Concluído em Fevereiro de 2022</p>
                 </div>
             </div>
         </section>
 
     </main>
     
-    <footer class="bg-slate-800 text-white">
+    <footer class="bg-slate-800 dark:bg-slate-950 text-white transition-colors duration-300">
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-             <p class="text-slate-300" data-translate-key="footer_availability"></p>
-             <p class="mt-2 text-slate-400" data-translate-key="footer_contact">Entre em contato: joaockrapp+cv@gmail.com</p>
+             <p class="text-slate-300 dark:text-slate-400" data-translate-key="footer_availability"></p>
+             <p class="mt-2 text-slate-400 dark:text-slate-500" data-translate-key="footer_contact">Entre em contato: joaockrapp+cv@gmail.com</p>
         </div>
     </footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Objeto com todas as traduções
+    // ---- DARK MODE LOGIC ----
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+
+    // Mudar o ícone com base na preferência atual
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        themeToggleLightIcon.classList.remove('hidden');
+    } else {
+        themeToggleDarkIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', function() {
+        // Toggle de ícones
+        themeToggleDarkIcon.classList.toggle('hidden');
+        themeToggleLightIcon.classList.toggle('hidden');
+
+        // Toggle do tema na classe HTML
+        if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        } else {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+        
+        // Atualizar estilos do gráfico Chart.js
+        updateChartTheme();
+    });
+
+
+    // ---- TRANSLATION LOGIC ----
     const translations = {
         en: {
             nav_about: "About",
@@ -295,7 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
             hero_description: "Proactive and results-oriented Computer Science student with practical experience in full-stack software development, data engineering, and analysis. I seek to apply my skills in Python, the Azure ecosystem, and AI development to create innovative technological solutions and contribute to challenging projects.",
             experience_title: "Professional Timeline",
             
-            // Textos da nova experiência
             bosch_jr_title: "Junior Fullstack Developer",
             bosch_jr_company: "Bosch | Campinas, SP (Remote)",
             bosch_jr_date: "Sep 2025 – Present",
@@ -318,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function () {
             chart_proficiency_label: 'Proficiency',
             projects_title: "Featured Projects",
             project1_title: "Asset Optimization for VR",
-            project1_desc: "Using Blender and Python scripts, I reduced the size of 3D models by <span class='font-bold text-green-600'>up to 75%</span>, drastically improving the performance of a Virtual Reality application at Bosch.",
+            project1_desc: "Using Blender and Python scripts, I reduced the size of 3D models by <span class='font-bold text-green-600 dark:text-green-400'>up to 75%</span>, drastically improving the performance of a Virtual Reality application at Bosch.",
             project2_title: "Data Pipeline with AI",
             project2_desc: "Developed a complete data pipeline in Azure Databricks, using LLMs to normalize and enrich data, automating the generation of complex reports.",
             project3_title: "Report Automation",
@@ -346,11 +419,10 @@ document.addEventListener('DOMContentLoaded', function () {
             hero_description: "Estudante de Ciência da Computação proativo e orientado a resultados, com experiência prática em desenvolvimento de software full-stack, engenharia e análise de dados. Busco aplicar minhas habilidades em Python, ecossistema Azure e desenvolvimento de IA para criar soluções tecnológicas inovadoras e contribuir para projetos desafiadores.",
             experience_title: "Linha do Tempo Profissional",
             
-            // Textos da nova experiência
             bosch_jr_title: "Desenvolvedor Fullstack Junior",
             bosch_jr_company: "Bosch | Campinas, SP (Remoto)",
             bosch_jr_date: "Set 2025 – Atualmente",
-            bosch_jr_desc: "Liderei o desenvolvimento do backend durante o MVP de um sistema de gerenciamento de custos de internet",
+            bosch_jr_desc: "Liderei o desenvolvimento do backend durante o MVP de um sistema de gerenciamento de custos de internet.",
 
             bosch_title: "Estagiário de Engenharia de Software",
             bosch_date: "Ago 2024 – Atualmente",
@@ -369,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function () {
             chart_proficiency_label: 'Proficiência',
             projects_title: "Projetos Destacados",
             project1_title: "Otimização de Ativos para VR",
-            project1_desc: "Utilizando Blender e scripts Python, reduzi o tamanho de modelos 3D em <span class='font-bold text-green-600'>até 75%</span>, melhorando drasticamente a performance de uma aplicação de Realidade Virtual na Bosch.",
+            project1_desc: "Utilizando Blender e scripts Python, reduzi o tamanho de modelos 3D em <span class='font-bold text-green-600 dark:text-green-400'>até 75%</span>, melhorando drasticamente a performance de uma aplicação de Realidade Virtual na Bosch.",
             project2_title: "Data Pipeline com IA",
             project2_desc: "Desenvolvi um pipeline de dados completo em Azure Databricks, empregando LLMs para normalizar e enriquecer dados, automatizando a geração de relatórios complexos.",
             project3_title: "Automação de Relatórios",
@@ -388,7 +460,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // Função para trocar o idioma
     const switchLanguage = (lang) => {
         document.querySelectorAll('[data-translate-key]').forEach(el => {
             const key = el.getAttribute('data-translate-key');
@@ -398,20 +469,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
         
-        // Atualiza o texto do gráfico
         skillsChart.data.datasets[0].label = translations[lang].chart_proficiency_label;
         skillsChart.update();
         
-        // Atualiza a classe 'active' nos botões
         document.getElementById('lang-pt').classList.toggle('active', lang === 'pt');
         document.getElementById('lang-en').classList.toggle('active', lang === 'en');
     };
 
-    // Event listeners para os botões de idioma
     document.getElementById('lang-pt').addEventListener('click', () => switchLanguage('pt'));
     document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
 
-
+    // ---- CHART LOGIC ----
     const skillsData = {
         languages: {
             labels: ['Python', 'Java', 'JavaScript/TS', 'Rust', 'SQL', 'HTML/CSS'],
@@ -433,7 +501,7 @@ document.addEventListener('DOMContentLoaded', function () {
         data: {
             labels: skillsData.languages.labels,
             datasets: [{
-                label: translations.pt.chart_proficiency_label, // Label inicial
+                label: translations.pt.chart_proficiency_label,
                 data: skillsData.languages.data,
                 backgroundColor: 'rgba(2, 132, 199, 0.2)',
                 borderColor: 'rgba(2, 132, 199, 1)',
@@ -464,12 +532,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             plugins: {
-                legend: {
-                    display: false
-                }
+                legend: { display: false }
             }
         }
     });
+
+    // Função para atualizar dinamicamente o tema do gráfico
+    function updateChartTheme() {
+        const isDark = document.documentElement.classList.contains('dark');
+        const textColor = isDark ? '#cbd5e1' : '#334155'; // slate-300 : slate-700
+        const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+        const tickColor = isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.5)';
+
+        skillsChart.options.scales.r.pointLabels.color = textColor;
+        skillsChart.options.scales.r.grid.color = gridColor;
+        skillsChart.options.scales.r.angleLines.color = gridColor;
+        skillsChart.options.scales.r.ticks.color = tickColor;
+        skillsChart.update();
+    }
 
     const skillButtons = document.querySelectorAll('.skill-btn');
     skillButtons.forEach(button => {
@@ -478,11 +558,11 @@ document.addEventListener('DOMContentLoaded', function () {
             
             skillButtons.forEach(btn => {
                 btn.classList.remove('bg-sky-600', 'text-white');
-                btn.classList.add('bg-slate-200', 'text-slate-700');
+                btn.classList.add('bg-slate-200', 'text-slate-700', 'dark:bg-slate-700', 'dark:text-slate-300');
             });
             
             button.classList.add('bg-sky-600', 'text-white');
-            button.classList.remove('bg-slate-200', 'text-slate-700');
+            button.classList.remove('bg-slate-200', 'text-slate-700', 'dark:bg-slate-700', 'dark:text-slate-300');
 
             skillsChart.data.labels = skillsData[skillCategory].labels;
             skillsChart.data.datasets[0].data = skillsData[skillCategory].data;
@@ -490,8 +570,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Inicia a página em português
+    // Iniciar página e componentes visuais corretamente
     switchLanguage('pt');
+    updateChartTheme();
 });
 </script>
 

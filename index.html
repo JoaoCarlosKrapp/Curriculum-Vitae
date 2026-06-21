@@ -1,637 +1,628 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currículo Interativo | João Carlos Krapp</title>
+    <title>Professional Resume Template</title>
+    <!-- Google Fonts: Inter for premium modern corporate readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS Engine -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-
+    <!-- FontAwesome Vector Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
-            darkMode: 'class', // Habilita o dark mode através de uma classe CSS no elemento <html>
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                    }
+                    },
                 }
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700');</style><text x='52%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='75' font-family='Inter, sans-serif' font-weight='700' fill='%230ea5e9'>J</text></svg>">
+
     <style>
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 40vh;
-            max-height: 400px;
-            width: 100%;
-            max-width: 500px;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: 9999px;
-            background-color: white;
-            border: 4px solid #0284c7; /* sky-600 */
-            left: -0.625rem;
-            top: 0;
-            z-index: 10;
-            transition: all 0.3s ease;
-        }
-        /* Estilos específicos para a linha do tempo no modo escuro */
-        html.dark .timeline-item::before {
-            background-color: #1e293b; /* slate-800 */
-            border-color: #38bdf8; /* sky-400 */
-        }
-        .foto-girada {
-            transform: rotate(-6deg);
+        :root {
+            --primary-color: #0f172a;      /* Slate 900 */
+            --accent-color: #2563eb;       /* Premium Sapphire Blue */
+            --accent-light: #eff6ff;       /* Sapphire Light bg */
+            --accent-border: #bfdbfe;      /* Sapphire Border */
+            --text-main: #334155;          /* Slate 700 */
+            --text-dark: #0f172a;          /* Slate 900 */
+            --bg-sidebar: #f8fafc;         /* Slate 50 */
+            --border-muted: #e2e8f0;       /* Slate 200 */
         }
 
-        .logo-alura{
-            filter: brightness(0) saturate(100%) invert(27%) sepia(15%) saturate(2598%) hue-rotate(175deg) brightness(96%) contrast(85%);
-        }
-        html.dark .logo-alura {
-            filter: brightness(0) saturate(100%) invert(75%) sepia(35%) saturate(600%) hue-rotate(175deg) brightness(105%) contrast(85%);
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: #f1f5f9;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        #brazilian-flag, #american-flag{
-            width: 20px;
-            /* height: 20px; */
-            /* background-image: url("./data/Flag_of_Brazil.svg"); */
+        #popup-background1{
+            background-color: rgba(255, 255, 255, 0) !important;
+        }
+
+        /* Accent classes mapped directly to theme color properties */
+        .color-accent {
+            color: var(--accent-color) !important;
+        }
+        .bg-accent {
+            background-color: var(--accent-color) !important;
+        }
+        .bg-accent-light {
+            background-color: var(--accent-light) !important;
+        }
+        .border-accent {
+            border-color: var(--accent-color) !important;
+        }
+        .border-accent-light {
+            border-color: var(--accent-border) !important;
+        }
+
+        /* Technical badges style */
+        .badge-tech {
+            background-color: #ffffff;
+            color: #334155; /* Slate 700 */
+            border: 1px solid #e2e8f0; /* Slate 200 */
+            transition: all 0.2s ease;
+        }
+        body.dark .badge-tech {
+            background-color: #1e293b !important; /* Slate 800 */
+            color: #cbd5e1 !important; /* Slate 300 */
+            border-color: #334155 !important; /* Slate 700 */
+        }
+
+        /* Project Pill badges style */
+        .badge-pill {
+            background-color: #f8fafc; /* Slate 50 */
+            color: #475569; /* Slate 600 */
+            border: 1px solid #e2e8f0; /* Slate 200 */
+            transition: all 0.2s ease;
+        }
+        body.dark .badge-pill {
+            background-color: #1e293b !important; /* Slate 800 */
+            color: #cbd5e1 !important; /* Slate 300 */
+            border-color: #334155 !important; /* Slate 700 */
+        }
+
+        /* Core Toggle Switch High-Contrast Fixes */
+        .theme-btn-active-light {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+        .theme-btn-inactive-light {
+            background-color: transparent !important;
+            color: #475569 !important; /* Slate 600 */
+        }
+        .theme-btn-active-dark {
+            background-color: #334155 !important; /* Slate 700 - Highly visible on Dark Navbar */
+            color: #ffffff !important;             /* Crisp pure white text */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+        }
+        .theme-btn-inactive-dark {
+            background-color: transparent !important;
+            color: #94a3b8 !important; /* Slate 400 - Clear unselected contrast */
+        }
+
+        /* Dynamic Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 99px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Dark Mode Dynamic Classes */
+        body.dark {
+            background-color: #090d16;
+            color: #cbd5e1;
+            --text-main: #94a3b8;
+            --text-dark: #f8fafc;
+            --primary-color: #f8fafc;
+        }
+        body.dark .no-print {
+            background-color: #111827 !important; /* Dark Gray 900 */
+            border-color: rgba(51, 65, 85, 0.5) !important;
+        }
+        body.dark .resume-sheet {
+            background-color: #0f172a !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4) !important;
+        }
+        body.dark #resume-sidebar {
+            background-color: #151f32 !important;
+            border-color: #1e293b !important;
+        }
+        body.dark .border-slate-100 {
+            border-color: #1e293b !important;
+        }
+        body.dark .border-slate-200 {
+            border-color: #334155 !important;
+        }
+        body.dark .bg-slate-50\/50 {
+            background-color: #151f32 !important;
+        }
+        body.dark .text-slate-900 {
+            color: #f8fafc !important;
+        }
+        body.dark .text-slate-800 {
+            color: #f1f5f9 !important;
+        }
+        body.dark .text-slate-700 {
+            color: #cbd5e1 !important;
+        }
+        body.dark .text-slate-600 {
+            color: #94a3b8 !important;
+        }
+        body.dark .text-slate-500 {
+            color: #cbd5e1 !important; /* Preserves sidebar detail contrast */
+        }
+        body.dark .text-slate-400 {
+            color: #94a3b8 !important; /* Preserves sidebar title contrast */
+        }
+
+        /* Print media page parameters layout */
+        @media print {
+            body {
+                background: white !important;
+                background-color: white !important;
+                color: #1e293b !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            /* Always force standard light mode layout during physical exports */
+            body.dark {
+                background: white !important;
+                background-color: white !important;
+                color: #1e293b !important;
+            }
+            body.dark .resume-sheet {
+                background: white !important;
+                color: #1e293b !important;
+                box-shadow: none !important;
+            }
+            body.dark #resume-sidebar {
+                background-color: #f8fafc !important;
+                border-color: #e2e8f0 !important;
+            }
+            body.dark .text-slate-900 { color: #0f172a !important; }
+            body.dark .text-slate-800 { color: #1e293b !important; }
+            body.dark .text-slate-700 { color: #334155 !important; }
+            body.dark .text-slate-600 { color: #475569 !important; }
+            body.dark .text-slate-500 { color: #64748b !important; }
+            body.dark .text-slate-400 { color: #94a3b8 !important; }
+            
+            body.dark .badge-tech, .badge-tech {
+                background-color: #ffffff !important;
+                color: #334155 !important;
+                border-color: #e2e8f0 !important;
+            }
+            body.dark .badge-pill, .badge-pill {
+                background-color: #f8fafc !important;
+                color: #475569 !important;
+                border-color: #e2e8f0 !important;
+            }
+            
+            /* Remove interactive toolbar segments from printing */
+            .no-print {
+                display: none !important;
+            }
+            
+            /* Maximize available printable width dimensions */
+            .resume-sheet {
+                margin: 0 !important;
+                box-shadow: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                border-radius: 0 !important;
+            }
+
+            /* Prevent element structural breaking over page grids */
+            .avoid-break {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
         }
     </style>
-    <!-- Script para verificar o tema antes do carregamento da página (evita flash branco) -->
-    <script>
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
-    </script>
 </head>
-<body class="antialiased bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300 font-sans">
+<body class="antialiased transition-colors duration-300">
 
-    <!-- Header & Navigation -->
-    <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 shadow-sm dark:shadow-slate-800/50 transition-colors duration-300">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="font-bold text-xl text-sky-600 dark:text-sky-400">JCK</span>
+    <!-- Interactive Floating Control Widget (Excluded from Printed Resumes) -->
+    <div id="popup-background1" class="no-print fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        <!-- Popup Settings Menu Card -->
+        <div id="settings-popup" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-4 w-64 flex flex-col gap-4 transform scale-95 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+                <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-accent color-accent"></i>
+                    <span>Settings</span>
+                </span>
+                <button onclick="toggleSettingsPopup()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer transition-colors">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- Config Elements inside Popup -->
+            <div class="flex flex-col gap-3">
+                <div class="flex flex-col gap-1.5">
+                    <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Display Mode</span>
+                    <div class="bg-slate-100 dark:bg-slate-950 p-1 rounded-xl flex items-center gap-1 transition-colors duration-300">
+                        <button id="theme-light-btn" onclick="toggleThemeMode('light')" class="flex-1 py-1.5 text-xs font-semibold rounded-lg cursor-pointer transition-all flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-sun text-amber-500"></i> Light
+                        </button>
+                        <button id="theme-dark-btn" onclick="toggleThemeMode('dark')" class="flex-1 py-1.5 text-xs font-semibold rounded-lg cursor-pointer transition-all flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-moon text-violet-400"></i> Dark
+                        </button>
+                    </div>
                 </div>
-                <div class="hidden md:flex items-center space-x-4">
-                    <a href="#sobre" data-translate-key="nav_about" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Sobre</a>
-                    <a href="#experiencia" data-translate-key="nav_experience" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Experiência</a>
-                    <a href="#competencias" data-translate-key="nav_skills" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Competências</a>
-                    <a href="#projetos" data-translate-key="nav_projects" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Projetos</a>
-                    <a href="#certificacoes" data-translate-key="nav_certifications" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Certificações</a>
-                    <a href="#formacao" data-translate-key="nav_education" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">Formação</a>
-                </div>
-                 <!-- Controls: Language Switcher & Theme Toggle -->
-                <div class="flex items-center space-x-3">
-                    <!-- Dropdown de Idiomas -->
-                    <div class="relative inline-block text-left">
-                        <div>
-                            <button type="button" id="lang-menu-button" class="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md bg-white/50 dark:bg-slate-800/50 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors" aria-expanded="false" aria-haspopup="true">
-                                <span id="current-lang-text">PT</span>
-                                <svg class="-mr-1 h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="lang-dropdown" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-slate-800 shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-slate-700 focus:outline-none hidden transition-all duration-200" role="menu" aria-orientation="vertical" aria-labelledby="lang-menu-button" tabindex="-1">
-                            <div class="py-1" role="none">
-                                <button class="lang-option w-full flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" role="menuitem" tabindex="-1" data-lang="pt">
-                                    <img class="text-base" id="brazilian-flag" src="./data/brazil-flag1.png"></span> Português
-                                </button>
-                                <button class="lang-option w-full flex items-center gap-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" role="menuitem" tabindex="-1" data-lang="en">
-                                    <img class="text-base"  id="american-flag" src="./data/united-states-flag-icon.png"></span> English
-                                </button>
+                
+                <button onclick="window.print()" class="w-full py-2.5 text-xs font-bold text-white bg-accent hover:opacity-90 rounded-xl shadow-md cursor-pointer flex items-center justify-center gap-2 transition-all mt-1">
+                    <i class="fa-solid fa-print"></i> Save / Print PDF
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Float Trigger Button -->
+        <button id="popup-trigger" onclick="toggleSettingsPopup()" class="w-14 h-14 rounded-full bg-accent text-white shadow-xl hover:shadow-2xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group">
+            <i class="fa-solid fa-cog text-xl transition-transform duration-500 group-hover:rotate-45"></i>
+        </button>
+    </div>
+
+    <!-- Master Workspace Container -->
+    <main class="max-w-5xl mx-auto px-4 py-8 md:py-12">
+        
+        <!-- Simulated Resume Sheet Frame -->
+        <article class="resume-sheet bg-white max-w-4xl mx-auto rounded-2xl shadow-xl border border-slate-200 overflow-hidden transition-all duration-300">
+            
+            <!-- Dynamic Colored Top Accent Accent Bar -->
+            <div class="h-2.5 bg-accent w-full transition-all duration-300"></div>
+
+            <!-- Two-Column Grid Alignment (Sidebar Left Style) -->
+            <div id="resume-container" class="flex flex-col md:flex-row">
+                
+                <!-- LEFT COLUMN: SIDEBAR (Personal details, Contact, Skills) -->
+                <aside id="resume-sidebar" class="w-full md:w-[32%] bg-slate-50 border-r border-slate-100 p-6 md:p-8 flex flex-col gap-6 shrink-0 transition-colors duration-300">
+                    
+                    <!-- Contact Segment -->
+                    <div class="avoid-break">
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest border-b border-slate-200 pb-2 mb-4 flex items-center gap-2">
+                            <i class="fa-regular fa-address-card color-accent transition-colors duration-300"></i> Contact Details
+                        </h3>
+                        <ul class="flex flex-col gap-3.5 text-xs text-slate-700">
+                            <!-- Email -->
+                            <li class="flex items-start gap-3">
+                                <span class="w-5 text-center mt-0.5"><i class="fa-regular fa-envelope color-accent text-sm"></i></span>
+                                <div class="flex-1">
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Email Address</span>
+                                    <span class="font-medium">johndoe@example.com</span>
+                                </div>
+                            </li>
+                            <!-- Phone -->
+                            <li class="flex items-start gap-3">
+                                <span class="w-5 text-center mt-0.5"><i class="fa-solid fa-phone color-accent text-sm"></i></span>
+                                <div class="flex-1">
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Phone</span>
+                                    <span class="font-medium">+1 (555) 019-2834</span>
+                                </div>
+                            </li>
+                            <!-- Address -->
+                            <li class="flex items-start gap-3">
+                                <span class="w-5 text-center mt-0.5"><i class="fa-solid fa-map-pin color-accent text-sm"></i></span>
+                                <div class="flex-1">
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Location</span>
+                                    <span class="font-medium">San Francisco, CA</span>
+                                </div>
+                            </li>
+                            <!-- LinkedIn -->
+                            <li class="flex items-start gap-3">
+                                <span class="w-5 text-center mt-0.5"><i class="fa-brands fa-linkedin-in color-accent text-sm"></i></span>
+                                <div class="flex-1">
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">LinkedIn</span>
+                                    <span class="font-medium">linkedin.com/in/johndoe</span>
+                                </div>
+                            </li>
+                            <!-- GitHub -->
+                            <li class="flex items-start gap-3">
+                                <span class="w-5 text-center mt-0.5"><i class="fa-brands fa-github color-accent text-sm"></i></span>
+                                <div class="flex-1">
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">GitHub</span>
+                                    <span class="font-medium">github.com/johndoe</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Technical & Soft Skills Segment -->
+                    <div class="avoid-break">
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest border-b border-slate-200 pb-2 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-code color-accent transition-colors duration-300"></i> Technical Expertise
+                        </h3>
+                        
+                        <div class="flex flex-col gap-4">
+                            <!-- Skill Group 1 -->
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2">Frontend Development</span>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">HTML5 / CSS3</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">React / NextJS</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">TypeScript</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">Tailwind CSS</span>
+                                </div>
+                            </div>
+                            <!-- Skill Group 2 -->
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2">Backend & Databases</span>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">Node.js</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">Express API</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">PostgreSQL</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">MongoDB</span>
+                                </div>
+                            </div>
+                            <!-- Skill Group 3 -->
+                            <div>
+                                <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2">Tools & Practices</span>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">Git / GitHub</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">Docker CI/CD</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">UI/UX Design</span>
+                                    <span class="badge-tech text-xs px-2.5 py-1 rounded-md font-medium">RESTful APIs</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Education Segment -->
+                    <div class="avoid-break">
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest border-b border-slate-200 pb-2 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap color-accent transition-colors duration-300"></i> Education
+                        </h3>
+                        <div class="flex flex-col gap-4">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800">M.S. in Computer Science</h4>
+                                <span class="text-[11px] text-slate-500 block mt-0.5">Stanford University</span>
+                                <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider block mt-0.5">2018 - 2020</span>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-800">B.S. in Software Engineering</h4>
+                                <span class="text-[11px] text-slate-500 block mt-0.5">UC Berkeley</span>
+                                <span class="text-[10px] uppercase font-semibold text-slate-400 tracking-wider block mt-0.5">2014 - 2018</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Certifications Block -->
+                    <div class="avoid-break">
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest border-b border-slate-200 pb-2 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-award color-accent transition-colors duration-300"></i> Accreditations
+                        </h3>
+                        <ul class="flex flex-col gap-3 text-xs text-slate-700">
+                            <li>
+                                <span class="font-semibold block">AWS Certified Solutions Architect</span>
+                                <span class="text-[10px] text-slate-500">Amazon Web Services · 2024</span>
+                            </li>
+                            <li>
+                                <span class="font-semibold block">Professional Scrum Master I</span>
+                                <span class="text-[10px] text-slate-500">Scrum.org · 2023</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </aside>
+
+                <!-- RIGHT COLUMN: MAIN WORKSPACE (Name, Executive Bio, Experience, Projects) -->
+                <section class="flex-1 p-6 md:p-8 flex flex-col gap-6 min-w-0">
                     
-                    <!-- Theme Toggle Button -->
-                    <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-200 dark:focus:ring-slate-700 rounded-lg text-sm p-2.5 transition-colors">
-                        <!-- Dark mode icon (Moon) -->
-                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                        <!-- Light mode icon (Sun) -->
-                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-                    </button>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-        <!-- Sobre / Hero Section -->
-        <section id="sobre" class="text-center py-16">
-            <img class="w-32 h-32 rounded-full mx-auto mb-6 shadow-lg ring-4 ring-white dark:ring-slate-800 foto-girada transition-shadow duration-300" src="./data/foto.jpg" alt="Foto de perfil de João Carlos Krapp" onerror="this.src='https://ui-avatars.com/api/?name=João+Krapp&background=0284c7&color=fff&size=128'">
-            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white transition-colors">João Carlos Krapp</h1>
-            <p class="mt-3 text-lg text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="hero_subtitle">Desenvolvedor de Software</p>
-            <div class="mt-6 flex justify-center gap-6">
-                <!-- Links Sociais -->
-                <a href="https://www.linkedin.com/in/joao-krapp/" target="_blank" title="LinkedIn" class="text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                </a>
-                <a href="https://github.com/JoaoCarlosKrapp" target="_blank" title="GitHub" class="text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"/></svg>
-                </a>
-            </div>
-            <div class="mt-8 max-w-3xl mx-auto">
-                <p class="text-base text-slate-700 dark:text-slate-300 transition-colors" data-translate-key="hero_description">
-                    Estudante de Ciência da Computação proativo e orientado a resultados, com experiência prática em desenvolvimento de software full-stack, engenharia e análise de dados. Busco aplicar minhas habilidades em Python, ecossistema Azure e desenvolvimento de IA para criar soluções tecnológicas inovadoras e contribuir para projetos desafiadores.
-                </p>
-            </div>
-        </section>
-
-        <!-- Experiência Profissional -->
-        <section id="experiencia" class="py-16">
-            <div class="max-w-3xl mx-auto">
-                <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white transition-colors" data-translate-key="experience_title">Linha do Tempo Profissional</h2>
-                <div class="relative border-l-2 border-slate-200 dark:border-slate-700 ml-3 transition-colors">
-                    
-                    <!-- Desenvolvedor Junior Bosch -->
-                    <div class="mb-10 ml-8 timeline-item">
-                        <h3 class="text-xl font-semibold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="bosch_jr_title">Desenvolvedor Fullstack Junior</h3>
-                        <p class="text-md font-medium text-slate-800 dark:text-slate-200 transition-colors" data-translate-key="bosch_jr_company">Bosch | Campinas, SP (Remoto)</p>
-                        <time class="text-sm font-normal text-slate-500 dark:text-slate-400 transition-colors" data-translate-key="bosch_jr_date">Set 2025 – Atualmente</time>
-                        <p class="mt-2 text-base text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="bosch_jr_desc">Liderei o desenvolvimento do backend durante o MVP de um sistema de gerenciamento de custos de internet.</p>
+                    <!-- Bio Header Frame -->
+                    <div class="border-b border-slate-100 pb-6">
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight leading-none">
+                            John Doe
+                        </h2>
+                        <span class="block text-sm md:text-base font-semibold text-accent uppercase tracking-widest mt-2.5 transition-colors duration-300">
+                            Lead Full-Stack Systems Engineer
+                        </span>
+                        
+                        <p class="text-xs md:text-sm text-slate-600 leading-relaxed mt-4">
+                            Results-driven Lead Engineer with over 6 years of experience optimizing full-stack application models, improving system architecture workflows, and managing global developer deployments. Expert in architecting modern microservices on React, TypeScript, Node.js, and scaling secure container applications.
+                        </p>
                     </div>
 
-                    <!-- Bosch -->
-                    <div class="mb-10 ml-8 timeline-item">
-                        <h3 class="text-xl font-semibold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="bosch_title">Estagiário de Engenharia de Software</h3>
-                        <p class="text-md font-medium text-slate-800 dark:text-slate-200 transition-colors">Bosch | Campinas, SP (Remoto)</p>
-                        <time class="text-sm font-normal text-slate-500 dark:text-slate-400 transition-colors" data-translate-key="bosch_date">Ago 2024 – Set 2025</time>
-                        <p class="mt-2 text-base text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="bosch_desc">Liderei o desenvolvimento e a implementação de um pipeline de dados em Databricks e colaborei no desenvolvimento de sistemas internos seguros com FastAPI e React.</p>
-                    </div>
-                    <!-- Unifique -->
-                    <div class="mb-10 ml-8 timeline-item">
-                        <h3 class="text-xl font-semibold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="unifique_title">Estagiário de Inovação e Tecnologia</h3>
-                        <p class="text-md font-medium text-slate-800 dark:text-slate-200 transition-colors">Unifique | Timbó, SC</p>
-                        <time class="text-sm font-normal text-slate-500 dark:text-slate-400 transition-colors" data-translate-key="unifique_date">Nov 2023 – Jul 2024</time>
-                        <p class="mt-2 text-base text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="unifique_desc">Desenvolvi e implementei rotinas de automação para a geração de relatórios gerenciais, otimizando o acesso à informação para a alta gestão.</p>
-                    </div>
-                    <!-- FURB -->
-                    <div class="ml-8 timeline-item">
-                        <h3 class="text-xl font-semibold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="furb_title">Estagiário de Análise de Dados</h3>
-                        <p class="text-md font-medium text-slate-800 dark:text-slate-200 transition-colors">FURB | Blumenau, SC</p>
-                        <time class="text-sm font-normal text-slate-500 dark:text-slate-400 transition-colors" data-translate-key="furb_date">Set 2022 – Nov 2023</time>
-                        <p class="mt-2 text-base text-slate-600 dark:text-slate-400 transition-colors" data-translate-key="furb_desc">Criei painéis de visualização de dados com Power BI e SQL, fornecendo insights analíticos que apoiaram a tomada de decisão estratégica.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Competências Técnicas -->
-        <section id="competencias" class="py-16 bg-white dark:bg-slate-800 rounded-2xl shadow-lg dark:shadow-slate-900/20 transition-colors duration-300">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-slate-900 dark:text-white transition-colors" data-translate-key="skills_title">Competências Técnicas</h2>
-                <p class="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto transition-colors" data-translate-key="skills_desc">Um resumo visual das minhas habilidades. Clique nos botões abaixo para explorar cada categoria e ver meu nível de proficiência em diferentes tecnologias.</p>
-            </div>
-            <div class="mt-8 flex justify-center flex-wrap gap-2 px-4">
-                <button data-skills="languages" class="skill-btn bg-sky-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors" data-translate-key="skills_btn_lang">Linguagens & Frameworks</button>
-                <button data-skills="data_cloud" class="skill-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-translate-key="skills_btn_data">Dados & Cloud</button>
-                <button data-skills="system_dev" class="skill-btn bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2 rounded-full text-sm font-medium transition-colors" data-translate-key="skills_btn_dev">Desenvolvimento de Sistemas</button>
-            </div>
-            <div class="mt-8 chart-container">
-                <canvas id="skillsChart"></canvas>
-            </div>
-        </section>
-
-        <!-- Projetos Destacados -->
-        <section id="projetos" class="py-16">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white transition-colors" data-translate-key="projects_title">Projetos Destacados</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Projeto VR -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-all duration-300">
-                    <h3 class="text-lg font-bold text-sky-700 dark:text-sky-400" data-translate-key="project1_title">Otimização de Ativos para VR</h3>
-                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300" data-translate-key="project1_desc">Utilizando Blender e scripts Python, reduzi o tamanho de modelos 3D em <span class="font-bold text-green-600 dark:text-green-400">até 75%</span>, melhorando drasticamente a performance de uma aplicação de Realidade Virtual na Bosch.</p>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="bg-sky-100 dark:bg-sky-900/50 text-sky-800 dark:text-sky-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Python</span>
-                        <span class="bg-sky-100 dark:bg-sky-900/50 text-sky-800 dark:text-sky-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Blender</span>
-                        <span class="bg-sky-100 dark:bg-sky-900/50 text-sky-800 dark:text-sky-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">VR</span>
-                    </div>
-                </div>
-                <!-- Projeto Data Pipeline -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-all duration-300">
-                    <h3 class="text-lg font-bold text-sky-700 dark:text-sky-400" data-translate-key="project2_title">Data Pipeline com IA</h3>
-                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300" data-translate-key="project2_desc">Desenvolvi um pipeline de dados completo em Azure Databricks, empregando LLMs para normalizar e enriquecer dados, automatizando a geração de relatórios complexos.</p>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                         <span class="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Azure</span>
-                         <span class="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Databricks</span>
-                         <span class="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">LLM</span>
-                         <span class="bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Python</span>
-                    </div>
-                </div>
-                <!-- Projeto Automação -->
-                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 transform hover:-translate-y-2 transition-all duration-300">
-                    <h3 class="text-lg font-bold text-sky-700 dark:text-sky-400" data-translate-key="project3_title">Automação de Relatórios</h3>
-                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300" data-translate-key="project3_desc">Criei scripts de automação na Unifique que processavam dados e geravam relatórios para a alta gestão, economizando horas de trabalho manual e agilizando a comunicação.</p>
-                     <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Python</span>
-                        <span class="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Pandas</span>
-                        <span class="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full transition-colors">Excel</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Certificações -->
-        <section id="certificacoes" class="py-16">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white transition-colors" data-translate-key="certifications_title">Certificações e Cursos</h2>
-            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Certificado 1 -->
-                <a href="https://certificates.cs50.io/88926a13-ecad-4a96-b4ec-ee8277e498b3.pdf?size=letter" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="./data/Harvard-Logo.png" alt="Logo Harvard" class="w-14 h-14 object-contain rounded transition-colors">
+                    <!-- Work Experience Segment -->
                     <div>
-                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors">CS50x: Introduction to Computer Science</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Harvard University</p>
-                    </div>
-                </a>
-                
-                <!-- Certificado 2 -->
-                <a href="https://docs.google.com/document/d/1YCs4ePlG2pLo7cDc0L2T0dW7CadPoxInAZ1pR2mxf_A/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="./data/meta-logo-upscaled-removebg.png" alt="Logo Meta" class="w-14 h-14 object-contain rounded certificationLogo transition-colors">
-                    <div>
-                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="cert2_title">Backend Development</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Meta</p>
-                    </div>
-                </a>
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest border-b border-slate-200 pb-2 mb-5 flex items-center gap-2">
+                            <i class="fa-solid fa-briefcase color-accent transition-colors duration-300"></i> Professional Experience
+                        </h3>
 
-                <!-- Certificado 3 -->
-                <a href="https://docs.google.com/document/d/1_IgyU19NDV6ynEEA_otRdrfHDuVGO_8JEolwV_-tOZg/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="./data/google-cloud.png" alt="Logo Google Cloud" class="w-14 h-14 object-contain rounded transition-colors">
-                    <div>
-                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="cert3_title">Introduction to AI and Machine Learning</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Google Cloud</p>
-                    </div>
-                </a>
+                        <div class="flex flex-col gap-6">
+                            
+                            <!-- Position 1 -->
+                            <div class="avoid-break group">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
+                                    <div class="flex flex-wrap items-baseline gap-1.5">
+                                        <h4 class="text-sm font-bold text-slate-800">Lead Full Stack Engineer</h4>
+                                        <span class="text-xs text-slate-400 font-semibold">@ TechInnovate Inc.</span>
+                                    </div>
+                                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                        Jan 2022 - Present | San Francisco, CA
+                                    </div>
+                                </div>
+                                <ul class="list-disc list-outside ml-4 mt-3 text-xs text-slate-600 space-y-2">
+                                    <li>
+                                        Orchestrated React, Next.js, and Express cloud platforms for an audience of 1.5M daily active users.
+                                    </li>
+                                    <li>
+                                        Pioneered standard DevOps CI/CD pipeline structures utilizing Docker & AWS ECS, shrinking integration deployment cycles by 35%.
+                                    </li>
+                                    <li>
+                                        Managed code quality operations and mentored a fast-paced development crew of 10+ engineers.
+                                    </li>
+                                </ul>
+                            </div>
 
-                <!-- Certificado 4 -->
-                <a href="https://learn.microsoft.com/api/achievements/share/en-us/JoaoKrapp-1415/VDRXPD5M?sharingId=D9F116307AAFD269" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="./data/Azure.svg" alt="Logo Microsoft Azure" class="w-12 h-12 object-contain rounded logo-azure transition-colors">
-                    <div>
-                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors">Explore PostgreSQL Architecture</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Microsoft Azure</p>
-                    </div>
-                </a>
+                            <!-- Position 2 -->
+                            <div class="avoid-break group">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
+                                    <div class="flex flex-wrap items-baseline gap-1.5">
+                                        <h4 class="text-sm font-bold text-slate-800">Senior Software Engineer</h4>
+                                        <span class="text-xs text-slate-400 font-semibold">@ Enterprise Labs</span>
+                                    </div>
+                                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                        Aug 2020 - Dec 2021 | Berkeley, CA
+                                    </div>
+                                </div>
+                                <ul class="list-disc list-outside ml-4 mt-3 text-xs text-slate-600 space-y-2">
+                                    <li>
+                                        Re-architected legacy software platforms into scalable microservices using NodeJS, decreasing PostgreSQL query latency margins by 40%.
+                                    </li>
+                                    <li>
+                                        Integrated Tailwind dynamic styles and modern TypeScript web interface architectures, optimizing Google Core Web Vitals to a baseline score of 95+.
+                                    </li>
+                                    <li>
+                                        Developed secure custom RESTful API layers utilized on external third-party payment provider platforms.
+                                    </li>
+                                </ul>
+                            </div>
 
-                <!-- Certificado 5 -->
-                 <a href="https://docs.google.com/document/d/1rMd3KEUAP_NijE1gRo8lbh48PbuvN1WycdvkKOWIoe4/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="./data/alura-removebg-preview.png" alt="Logo Alura" class="w-14 h-14 object-contain rounded logo-alura transition-all">
-                    <div>
-                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors">Django: Rest Frameworks</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Alura</p>
-                    </div>
-                </a>
+                            <!-- Position 3 -->
+                            <div class="avoid-break group">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
+                                    <div class="flex flex-wrap items-baseline gap-1.5">
+                                        <h4 class="text-sm font-bold text-slate-800">Junior Developer</h4>
+                                        <span class="text-xs text-slate-400 font-semibold">@ StarLaunch Digital</span>
+                                    </div>
+                                    <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                                        Jul 2018 - Jul 2020 | Berkeley, CA
+                                    </div>
+                                </div>
+                                <ul class="list-disc list-outside ml-4 mt-3 text-xs text-slate-600 space-y-2">
+                                    <li>
+                                        Maintained responsive frontend interface styles for client dashboard pages, reducing user bounce rates by 12%.
+                                    </li>
+                                    <li>
+                                        Assisted the infrastructure engineering team in handling system migrations, database backups, and environment configurations.
+                                    </li>
+                                </ul>
+                            </div>
 
-                <!-- Certificado 6 -->
-                 <a href="https://docs.google.com/document/d/1QriAaPbW7TWTkXwrmc749wGNZaLVuuNze03ZNBez4lc/edit?usp=sharing" target="_blank" class="flex items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-lg shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
-                    <img src="./data/alura-removebg-preview.png" alt="Logo Alura" class="w-14 h-14 object-contain rounded logo-alura transition-all">
-                    <div>
-                        <h3 class="font-bold text-sky-700 dark:text-sky-400 transition-colors" data-translate-key="cert6_title">Apache Airflow: Data Pipelines</h3>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 transition-colors">Alura</p>
+                        </div>
                     </div>
-                </a>
+
+                    <!-- Highlight Projects Segment -->
+                    <div>
+                        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest border-b border-slate-200 pb-2 mb-5 flex items-center gap-2">
+                            <i class="fa-solid fa-diagram-project color-accent transition-colors duration-300"></i> Noteworthy Projects
+                        </h3>
+
+                        <div class="flex flex-col gap-5">
+                            
+                            <!-- Project 1 -->
+                            <div class="avoid-break">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-bold text-slate-800">OmniScale: AI Analytics Dashboard</h4>
+                                    <span class="badge-pill text-[10px] font-medium px-2.5 py-0.5 rounded-full">Open Source</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                                    Led the system architecture of an automated analytics software dashboard. Scaled Node pipelines to compute upwards of 100k streaming event inputs daily. Implemented React interface rendering with clean visual telemetry graphs.
+                                </p>
+                            </div>
+
+                            <!-- Project 2 -->
+                            <div class="avoid-break">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-sm font-bold text-slate-800">HyperSec: Decentralized Auth Framework</h4>
+                                    <span class="badge-pill text-[10px] font-medium px-2.5 py-0.5 rounded-full">TypeScript</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                                    Authored an advanced cryptographically secure client verification library. Replaced outdated backend verification protocols and established custom token-based authorization workflows on mobile clients.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </section>
             </div>
-        </section>
-
-        <!-- Formação Acadêmica -->
-        <section id="formacao" class="py-16">
-            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900 dark:text-white transition-colors" data-translate-key="education_title">Formação Acadêmica</h2>
-            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-colors">
-                    <h3 class="font-bold text-sky-700 dark:text-sky-400" data-translate-key="furb_education_title">Bacharelado em Ciência da Computação</h3>
-                    <p class="text-slate-600 dark:text-slate-300">FURB - Fundação Universidade Regional de Blumenau</p>
-                    <p class="text-sm text-slate-500 dark:text-slate-400" data-translate-key="furb_education_date">Conclusão em Junho de 2026</p>
-                </div>
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-colors">
-                    <h3 class="font-bold text-sky-700 dark:text-sky-400" data-translate-key="ifc_education_title">Curso Técnico em Informática</h3>
-                    <p class="text-slate-600 dark:text-slate-300">IFC - Instituto Federal Catarinense</p>
-                    <p class="text-sm text-slate-500 dark:text-slate-400" data-translate-key="ifc_education_date">Concluído em Fevereiro de 2022</p>
-                </div>
-            </div>
-        </section>
-
+        </article>
     </main>
-    
-    <footer class="bg-slate-800 dark:bg-slate-950 text-white transition-colors duration-300">
-        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-             <p class="text-slate-300 dark:text-slate-400" data-translate-key="footer_availability"></p>
-             <p class="mt-2 text-slate-400 dark:text-slate-500" data-translate-key="footer_contact">Entre em contato: joaockrapp+cv@gmail.com</p>
-        </div>
-    </footer>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // ---- DARK MODE LOGIC ----
-    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-    const themeToggleBtn = document.getElementById('theme-toggle');
+    <script>
+        let isPopupOpen = false;
 
-    // Mudar o ícone com base na preferência atual
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        themeToggleLightIcon.classList.remove('hidden');
-    } else {
-        themeToggleDarkIcon.classList.remove('hidden');
-    }
-
-    themeToggleBtn.addEventListener('click', function() {
-        // Toggle de ícones
-        themeToggleDarkIcon.classList.toggle('hidden');
-        themeToggleLightIcon.classList.toggle('hidden');
-
-        // Toggle do tema na classe HTML
-        if (localStorage.getItem('color-theme')) {
-            if (localStorage.getItem('color-theme') === 'light') {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
+        // Toggle Settings Popup visibility with smooth transitions
+        function toggleSettingsPopup() {
+            const popup = document.getElementById('settings-popup');
+            const triggerIcon = document.querySelector('#popup-trigger i');
+            isPopupOpen = !isPopupOpen;
+            
+            if (isPopupOpen) {
+                popup.classList.remove('scale-95', 'opacity-0', 'pointer-events-none');
+                popup.classList.add('scale-100', 'opacity-100');
+                triggerIcon.classList.add('rotate-45');
             } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
+                popup.classList.remove('scale-100', 'opacity-100');
+                popup.classList.add('scale-95', 'opacity-0', 'pointer-events-none');
+                triggerIcon.classList.remove('rotate-45');
             }
-        } else {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
+        }
+
+        // Close the popup settings menu if clicking outside of the widget
+        document.addEventListener('click', function(event) {
+            const widget = document.querySelector('.no-print.fixed');
+            if (isPopupOpen && widget && !widget.contains(event.target)) {
+                toggleSettingsPopup();
+            }
+        });
+
+        // Function to toggle between light and dark display modes
+        function toggleThemeMode(mode) {
+            const body = document.body;
+            const lightBtn = document.getElementById('theme-light-btn');
+            const darkBtn = document.getElementById('theme-dark-btn');
+
+            if (mode === 'dark') {
+                body.classList.add('dark');
+                
+                // Set light button to inactive dark style
+                lightBtn.classList.remove('theme-btn-active-light');
+                lightBtn.classList.add('theme-btn-inactive-dark');
+                
+                // Set dark button to active dark style (High-contrast fix)
+                darkBtn.classList.remove('theme-btn-inactive-dark');
+                darkBtn.classList.add('theme-btn-active-dark');
             } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
+                body.classList.remove('dark');
+
+                // Set dark button to inactive light style
+                darkBtn.classList.remove('theme-btn-active-dark');
+                darkBtn.classList.add('theme-btn-inactive-light');
+                
+                // Set light button to active light style
+                lightBtn.classList.remove('theme-btn-inactive-light');
+                lightBtn.classList.add('theme-btn-active-light');
             }
         }
-        
-        // Atualizar estilos do gráfico Chart.js
-        updateChartTheme();
-    });
 
-
-    // ---- TRANSLATION LOGIC ----
-    const translations = {
-        en: {
-            nav_about: "About",
-            nav_experience: "Experience",
-            nav_skills: "Skills",
-            nav_projects: "Projects",
-            nav_certifications: "Certifications",
-            nav_education: "Education",
-            hero_subtitle: "Software Developer",
-            hero_description: "Proactive and results-oriented Computer Science student with practical experience in full-stack software development, data engineering, and analysis. I seek to apply my skills in Python, the Azure ecosystem, and AI development to create innovative technological solutions and contribute to challenging projects.",
-            experience_title: "Professional Timeline",
-            
-            bosch_jr_title: "Junior Fullstack Developer",
-            bosch_jr_company: "Bosch | Campinas, SP (Remote)",
-            bosch_jr_date: "Sep 2025 – Present",
-            bosch_jr_desc: "Led backend development during the MVP of an internet cost management system",
-
-            bosch_title: "Software Engineer Intern",
-            bosch_date: "Aug 2024 – Present",
-            bosch_desc: "Led the development and implementation of a data pipeline in Databricks and collaborated on the development of secure internal systems with FastAPI and React.",
-            unifique_title: "Innovation and Technology Intern",
-            unifique_date: "Nov 2023 – Jul 2024",
-            unifique_desc: "Developed and implemented automation routines for generating management reports, optimizing information access for senior management.",
-            furb_title: "Data Analysis Intern",
-            furb_date: "Sep 2022 – Nov 2023",
-            furb_desc: "Created data visualization dashboards with Power BI and SQL, providing analytical insights that supported strategic decision-making.",
-            skills_title: "Technical Skills",
-            skills_desc: "A visual summary of my skills. Click the buttons below to explore each category and see my proficiency level in different technologies.",
-            skills_btn_lang: "Languages & Frameworks",
-            skills_btn_data: "Data & Cloud",
-            skills_btn_dev: "System Development",
-            chart_proficiency_label: 'Proficiency',
-            projects_title: "Featured Projects",
-            project1_title: "Asset Optimization for VR",
-            project1_desc: "Using Blender and Python scripts, I reduced the size of 3D models by <span class='font-bold text-green-600 dark:text-green-400'>up to 75%</span>, drastically improving the performance of a Virtual Reality application at Bosch.",
-            project2_title: "Data Pipeline with AI",
-            project2_desc: "Developed a complete data pipeline in Azure Databricks, using LLMs to normalize and enrich data, automating the generation of complex reports.",
-            project3_title: "Report Automation",
-            project3_desc: "Created automation scripts at Unifique that processed data and generated reports for senior management, saving hours of manual work and streamlining communication.",
-            certifications_title: "Certifications and Courses",
-            cert2_title: "Backend Development",
-            cert3_title: "Introduction to AI and Machine Learning",
-            cert6_title: "Apache Airflow: Data Pipelines",
-            education_title: "Academic Background",
-            furb_education_title: "Bachelor's in Computer Science",
-            furb_education_date: "Conclusion in June 2026",
-            ifc_education_title: "Technical Course in Informatics",
-            ifc_education_date: "Completed in February 2022",
-            footer_availability: "",
-            footer_contact: "Contact me: joaockrapp+cv@gmail.com",
-        },
-        pt: {
-            nav_about: "Sobre",
-            nav_experience: "Experiência",
-            nav_skills: "Competências",
-            nav_projects: "Projetos",
-            nav_certifications: "Certificações",
-            nav_education: "Formação",
-            hero_subtitle: "Desenvolvedor de Software",
-            hero_description: "Estudante de Ciência da Computação proativo e orientado a resultados, com experiência prática em desenvolvimento de software full-stack, engenharia e análise de dados. Busco aplicar minhas habilidades em Python, ecossistema Azure e desenvolvimento de IA para criar soluções tecnológicas inovadoras e contribuir para projetos desafiadores.",
-            experience_title: "Linha do Tempo Profissional",
-            
-            bosch_jr_title: "Desenvolvedor Fullstack Junior",
-            bosch_jr_company: "Bosch | Campinas, SP (Remoto)",
-            bosch_jr_date: "Set 2025 – Atualmente",
-            bosch_jr_desc: "Liderei o desenvolvimento do backend durante o MVP de um sistema de gerenciamento de custos de internet.",
-
-            bosch_title: "Estagiário de Engenharia de Software",
-            bosch_date: "Ago 2024 – Atualmente",
-            bosch_desc: "Liderei o desenvolvimento e a implementação de um pipeline de dados em Databricks e colaborei no desenvolvimento de sistemas internos seguros com FastAPI e React.",
-            unifique_title: "Estagiário de Inovação e Tecnologia",
-            unifique_date: "Nov 2023 – Jul 2024",
-            unifique_desc: "Desenvolvi e implementei rotinas de automação para a geração de relatórios gerenciais, otimizando o acesso à informação para a alta gestão.",
-            furb_title: "Estagiário de Análise de Dados",
-            furb_date: "Set 2022 – Nov 2023",
-            furb_desc: "Criei painéis de visualização de dados com Power BI e SQL, fornecendo insights analíticos que apoiaram a tomada de decisão estratégica.",
-            skills_title: "Competências Técnicas",
-            skills_desc: "Um resumo visual das minhas habilidades. Clique nos botões abaixo para explorar cada categoria e ver meu nível de proficiência em diferentes tecnologias.",
-            skills_btn_lang: "Linguagens & Frameworks",
-            skills_btn_data: "Dados & Cloud",
-            skills_btn_dev: "Desenvolvimento de Sistemas",
-            chart_proficiency_label: 'Proficiência',
-            projects_title: "Projetos Destacados",
-            project1_title: "Otimização de Ativos para VR",
-            project1_desc: "Utilizando Blender e scripts Python, reduzi o tamanho de modelos 3D em <span class='font-bold text-green-600 dark:text-green-400'>até 75%</span>, melhorando drasticamente a performance de uma aplicação de Realidade Virtual na Bosch.",
-            project2_title: "Data Pipeline com IA",
-            project2_desc: "Desenvolvi um pipeline de dados completo em Azure Databricks, empregando LLMs para normalizar e enriquecer dados, automatizando a geração de relatórios complexos.",
-            project3_title: "Automação de Relatórios",
-            project3_desc: "Criei scripts de automação na Unifique que processavam dados e geravam relatórios para a alta gestão, economizando horas de trabalho manual e agilizando a comunicação.",
-            certifications_title: "Certificações e Cursos",
-            cert2_title: "Backend Development",
-            cert3_title: "Introduction to AI and Machine Learning",
-            cert6_title: "Apache Airflow: Data Pipelines",
-            education_title: "Formação Acadêmica",
-            furb_education_title: "Bacharelado em Ciência da Computação",
-            furb_education_date: "Conclusão em Junho de 2026",
-            ifc_education_title: "Curso Técnico em Informática",
-            ifc_education_date: "Concluído em Fevereiro de 2022",
-            footer_availability: "",
-            footer_contact: "Entre em contato: joaockrapp+cv@gmail.com",
-        }
-    };
-
-    const switchLanguage = (lang) => {
-        document.querySelectorAll('[data-translate-key]').forEach(el => {
-            const key = el.getAttribute('data-translate-key');
-            if (translations[lang] && translations[lang][key]) {
-                el.innerHTML = translations[lang][key];
-            }
-        });
-        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
-        
-        skillsChart.data.datasets[0].label = translations[lang].chart_proficiency_label;
-        skillsChart.update();
-        
-        // Atualizar o texto do botão do dropdown
-        document.getElementById('current-lang-text').innerText = lang.toUpperCase();
-        
-        // Atualizar estilos das opções do dropdown
-        document.querySelectorAll('.lang-option').forEach(btn => {
-            if (btn.dataset.lang === lang) {
-                btn.classList.add('font-bold', 'text-sky-600', 'dark:text-sky-400');
-            } else {
-                btn.classList.remove('font-bold', 'text-sky-600', 'dark:text-sky-400');
-            }
-        });
-    };
-
-    // Lógica de abrir/fechar o dropdown
-    const langMenuButton = document.getElementById('lang-menu-button');
-    const langDropdown = document.getElementById('lang-dropdown');
-
-    langMenuButton.addEventListener('click', () => {
-        const isHidden = langDropdown.classList.contains('hidden');
-        if (isHidden) {
-            langDropdown.classList.remove('hidden');
-            langMenuButton.setAttribute('aria-expanded', 'true');
-        } else {
-            langDropdown.classList.add('hidden');
-            langMenuButton.setAttribute('aria-expanded', 'false');
-        }
-    });
-
-    // Fechar ao clicar fora
-    document.addEventListener('click', (event) => {
-        if (!langMenuButton.contains(event.target) && !langDropdown.contains(event.target)) {
-            langDropdown.classList.add('hidden');
-            langMenuButton.setAttribute('aria-expanded', 'false');
-        }
-    });
-
-    // Event listeners para os botões dentro do dropdown
-    document.querySelectorAll('.lang-option').forEach(btn => {
-        btn.addEventListener('click', () => {
-            switchLanguage(btn.dataset.lang);
-            langDropdown.classList.add('hidden');
-            langMenuButton.setAttribute('aria-expanded', 'false');
-        });
-    });
-
-    // ---- CHART LOGIC ----
-    const skillsData = {
-        languages: {
-            labels: ['Python', 'Java', 'JavaScript/TS', 'Rust', 'SQL', 'HTML/CSS'],
-            data: [95, 65, 75, 60, 90, 95]
-        },
-        data_cloud: {
-            labels: ['Azure', 'Databricks', 'Apache Spark', 'Power BI', 'SQL/PostgreSQL', 'Apache Airflow'],
-            data: [70, 85, 75, 85, 90, 60]
-        },
-        system_dev: {
-            labels: ['React', 'FastAPI', 'Git', 'Docker', 'Django', 'Spring Boot'],
-            data: [80, 90, 95, 75, 85, 60]
-        }
-    };
-
-    const ctx = document.getElementById('skillsChart').getContext('2d');
-    const skillsChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-            labels: skillsData.languages.labels,
-            datasets: [{
-                label: translations.pt.chart_proficiency_label,
-                data: skillsData.languages.data,
-                backgroundColor: 'rgba(2, 132, 199, 0.2)',
-                borderColor: 'rgba(2, 132, 199, 1)',
-                pointBackgroundColor: 'rgba(2, 132, 199, 1)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgba(2, 132, 199, 1)'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                r: {
-                    angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                    grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                    pointLabels: {
-                        font: { size: 12 },
-                        color: '#334155'
-                    },
-                    ticks: {
-                        backdropColor: 'transparent',
-                        color: 'rgba(0,0,0,0.5)',
-                        stepSize: 20
-                    },
-                    suggestedMin: 0,
-                    suggestedMax: 100
-                }
-            },
-            plugins: {
-                legend: { display: false }
-            }
-        }
-    });
-
-    // Função para atualizar dinamicamente o tema do gráfico
-    function updateChartTheme() {
-        const isDark = document.documentElement.classList.contains('dark');
-        const textColor = isDark ? '#cbd5e1' : '#334155'; // slate-300 : slate-700
-        const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-        const tickColor = isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.5)';
-
-        skillsChart.options.scales.r.pointLabels.color = textColor;
-        skillsChart.options.scales.r.grid.color = gridColor;
-        skillsChart.options.scales.r.angleLines.color = gridColor;
-        skillsChart.options.scales.r.ticks.color = tickColor;
-        skillsChart.update();
-    }
-
-    const skillButtons = document.querySelectorAll('.skill-btn');
-    skillButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const skillCategory = button.dataset.skills;
-            
-            skillButtons.forEach(btn => {
-                btn.classList.remove('bg-sky-600', 'text-white');
-                btn.classList.add('bg-slate-200', 'text-slate-700', 'dark:bg-slate-700', 'dark:text-slate-300');
-            });
-            
-            button.classList.add('bg-sky-600', 'text-white');
-            button.classList.remove('bg-slate-200', 'text-slate-700', 'dark:bg-slate-700', 'dark:text-slate-300');
-
-            skillsChart.data.labels = skillsData[skillCategory].labels;
-            skillsChart.data.datasets[0].data = skillsData[skillCategory].data;
-            skillsChart.update();
-        });
-    });
-
-    // Iniciar página e componentes visuais corretamente
-    switchLanguage('pt');
-    updateChartTheme();
-});
-</script>
-
+        // Initialize template on window load
+        window.onload = function() {
+            // Default to Light Mode setup
+            toggleThemeMode('dark');
+        };
+    </script>
 </body>
 </html>
